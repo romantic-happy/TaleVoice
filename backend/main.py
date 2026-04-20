@@ -10,6 +10,7 @@ FastAPI应用配置，包括：
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from contextlib import asynccontextmanager
 
 from app.api import user_router, voice_sample_router, project_router, common_router
 from app.core.config import settings
@@ -18,10 +19,30 @@ from app.core.middleware import RequestLoggingMiddleware
 from app.core.database import engine, Base
 from app.schemas.common import ResponseModel, APIException
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    应用的生命周期管理 (替代 on_event)
+    """
+    # ====== 启动阶段 (Startup) ======
+    app_logger.info(f"{settings.APP_NAME} 服务启动")
+    # 创建数据库表结构
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+    yield  # ⬅️ 关键：应用在此处挂起并开始处理接收到的请求
+
+    # ====== 关闭阶段 (Shutdown) ======
+    app_logger.info(f"{settings.APP_NAME} 服务关闭")
+    # 关闭数据库连接
+    await engine.dispose()
+
+    
 app = FastAPI(
     title=settings.APP_NAME,
     description="TaleVoice - AI故事语音生成平台",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 
@@ -60,23 +81,6 @@ app.include_router(user_router)
 app.include_router(voice_sample_router)
 app.include_router(project_router)
 app.include_router(common_router)
-
-
-@app.on_event("startup")
-async def startup_event():
-    """应用启动事件处理"""
-    app_logger.info(f"{settings.APP_NAME} 服务启动")
-    # 创建数据库表结构
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    """应用关闭事件处理"""
-    app_logger.info(f"{settings.APP_NAME} 服务关闭")
-    # 关闭数据库连接
-    await engine.dispose()
 
 
 @app.get("/")
