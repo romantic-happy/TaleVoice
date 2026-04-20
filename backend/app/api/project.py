@@ -152,5 +152,5 @@ async def get_project_list(
     return ProjectListResponse(
         code=200,
         message="获取成功",
-        date=ProjectListData(total=total, lists=lists)
+        data=ProjectListData(total=total, lists=lists)
     )
