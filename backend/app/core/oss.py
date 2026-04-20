@@ -21,7 +21,7 @@ class OSSClient:
         """初始化OSS客户端"""
         self.auth = oss2.Auth(
             settings.OSS_ACCESS_KEY_ID,
-            settings.OSS_ACCESS_KEY_SECRET
+            settings.OSS_ACCESS_KEY_SECRET.get_secret_value()
         )
         self.bucket = oss2.Bucket(
             self.auth,
