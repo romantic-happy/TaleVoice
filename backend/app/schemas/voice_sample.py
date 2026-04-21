@@ -6,7 +6,7 @@
 
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class VoiceSampleCreate(BaseModel):
@@ -21,13 +21,13 @@ class VoiceSampleUpdate(BaseModel):
 
 
 class VoiceSampleResponse(BaseModel):
-    """音色样本响应Schema"""
-    voiceId: str
-    voiceName: str
-    default: bool
+    voiceId: str = Field(alias="voice_id")
+    voiceName: str = Field(alias="voice_name")
+    default: bool = Field(alias="is_default") # 映射数据库的 is_default
 
     class Config:
         from_attributes = True
+        populate_by_name = True # 允许通过别名或原始名赋值
 
 
 class VoiceSampleListResponse(BaseModel):

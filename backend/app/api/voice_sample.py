@@ -6,7 +6,7 @@
 
 from typing import List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Form, UploadFile, File
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
@@ -24,26 +24,22 @@ router = APIRouter(prefix="/api/user/audio", tags=["用户模块/参考音频"])
 
 @router.post("", response_model=ResponseModel)
 async def create_voice_sample(
-    voice_data: VoiceSampleCreate,
-    current_user: dict = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+        voiceName: str = Form(None),
+        audio: UploadFile = File(...),  # 这里变量名是 audio
+        current_user: dict = Depends(get_current_user),
+        db: AsyncSession = Depends(get_db)
 ):
-    """
-    创建音色样本接口
+    app_logger.info(f"收到上传请求: {voiceName}, 文件名: {audio.filename}")
 
-    - 需要JWT认证
-    - 创建一个新的音色样本记录
-    - 返回音色样本ID
-    """
-    app_logger.info(f"创建音色样本请求: {current_user.get('username')}, 名称: {voice_data.voiceName}")
+    # 将 audio (UploadFile对象) 传给 service
     voice_sample = await voice_sample_service.create_voice_sample(
-        db,
-        current_user["user_id"],
-        voice_data.voiceName
+        db=db,
+        user_id=current_user["user_id"],
+        voice_name=voiceName,
+        audio_file=audio  # 传递文件
     )
-    app_logger.info(f"创建音色样本成功: {voice_sample.voice_id}")
-    return ResponseModel(code=200, message="创建成功", data=voice_sample.voice_id)
 
+    return ResponseModel(code=200, message="上传并创建成功", data=voice_sample.voice_id)
 
 @router.put("", response_model=ResponseModel)
 async def update_voice_sample(

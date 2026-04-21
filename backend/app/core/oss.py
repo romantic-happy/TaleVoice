@@ -77,5 +77,44 @@ class OSSClient:
             app_logger.error(f"文件删除失败: {str(e)}")
             return False
 
+    def get_file_content(self, object_key: str) -> bytes:
+        """
+        从OSS获取文件内容 (用于后端处理)
+
+        Args:
+            object_key: OSS对象键 (例如: voice_samples/xxx.mp3)
+
+        Returns:
+            bytes: 文件字节流内容
+        """
+        try:
+            # get_object 返回的是一个 file-like object
+            result = self.bucket.get_object(object_key)
+            content = result.read()
+            app_logger.info(f"文件拉取成功: {object_key}")
+            return content
+        except Exception as e:
+            app_logger.error(f"文件拉取失败: {str(e)}")
+            raise
+
+    def get_sign_url(self, object_key: str, expires: int = 3600) -> str:
+        """
+        生成有时效性的签名访问链接
+
+        Args:
+            object_key: OSS对象键
+            expires: 有效期（秒），默认1小时
+
+        Returns:
+            str: 签名URL
+        """
+        try:
+            # 即使文件是私有的，生成的 URL 也可以直接访问
+            url = self.bucket.sign_url('GET', object_key, expires)
+            app_logger.info(f"签名URL生成成功: {object_key}")
+            return url
+        except Exception as e:
+            app_logger.error(f"签名URL生成失败: {str(e)}")
+            raise
 
 oss_client = OSSClient()
