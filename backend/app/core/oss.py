@@ -26,7 +26,8 @@ class OSSClient:
         year = now.strftime("%Y")
         month = now.strftime("%m")
         unique_filename = f"{uuid.uuid4()}{file_ext}"
-        object_key = f"{key_prefix}{year}/{month}/{unique_filename}"
+        normalized_key_prefix = key_prefix.rstrip("/") + "/"
+        object_key = f"{normalized_key_prefix}{year}/{month}/{unique_filename}"
 
         try:
             self.bucket.put_object(object_key, file_content)

@@ -21,13 +21,22 @@ class VoiceSampleUpdate(BaseModel):
 
 
 class VoiceSampleResponse(BaseModel):
-    voiceId: str = Field(alias="voice_id")
-    voiceName: str = Field(alias="voice_name")
-    default: bool = Field(alias="is_default") # 映射数据库的 is_default
+    voiceId: str = Field(
+        validation_alias="voice_id",
+        serialization_alias="voiceId",
+    )
+    voiceName: str = Field(
+        validation_alias="voice_name",
+        serialization_alias="voiceName",
+    )
+    default: bool = Field(
+        validation_alias="is_default",
+        serialization_alias="default",
+    ) # 映射数据库的 is_default
 
     class Config:
         from_attributes = True
-        populate_by_name = True # 允许通过别名或原始名赋值
+        populate_by_name = True # 允许通过字段名或校验别名赋值
 
 
 class VoiceSampleListResponse(BaseModel):

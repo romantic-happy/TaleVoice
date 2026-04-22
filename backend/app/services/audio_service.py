@@ -88,11 +88,17 @@ class AudioService:
 
         return await asyncio.get_running_loop().run_in_executor(None, _run)
 
+    async def _upload_audio(self, wav_bytes: bytes) -> str:
+        def _run():
+            return oss_client.upload_file(wav_bytes, ".wav", key_prefix="audio/")
+
+        return await asyncio.get_running_loop().run_in_executor(None, _run)
+
     async def _process_audio_job(self, audio_id: str, story_text: str, voice_url: str, ref_text: Optional[str]) -> None:
         async with AsyncSessionLocal() as session:
             try:
                 generated = await self._generate_wav(story_text, voice_url, ref_text, settings.TTS_LANGUAGE)
-                file_url = oss_client.upload_file(generated.wav_bytes, ".wav", key_prefix="audio/")
+                file_url = await self._upload_audio(generated.wav_bytes)
                 audio = await session.get(Audio, audio_id)
                 if audio is None:
                     return

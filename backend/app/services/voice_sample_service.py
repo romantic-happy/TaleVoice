@@ -13,7 +13,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from app.models import VoiceSample
-from app.models.user import User
 from app.core.oss import oss_client
 from starlette import status
 
@@ -85,20 +84,27 @@ class VoiceSampleService:
                     detail="文件内容超过 10MB 限制"
                 )
 
-            # 4. 获取后缀名并生成唯一文件名
-            file_ext = os.path.splitext(audio_file.filename)[1] or ".mp3"
+            # 4. 校验文件名，获取后缀名并生成唯一文件名
+            filename = audio_file.filename
+            if not filename or not filename.strip():
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="上传文件必须包含有效的文件名"
+                )
+
+            file_ext = os.path.splitext(filename)[1] or ".mp3"
             # 这里应该检查文件类型的但是我不管了
             unique_filename = f"{uuid.uuid4()}{file_ext}"
 
             # 5. 异步处理 IO
-            loop = asyncio.get_event_loop()
+            loop = asyncio.get_running_loop()
             try:
                 audio_url = await loop.run_in_executor(
                     None,  # 使用默认线程池
                     lambda: oss_client.upload_file(
                         file_content=file_content,
                         file_ext=file_ext,
-                        key_prefix=f"voice_samples/{user_id}/{unique_filename}"
+                        key_prefix=f"voice_samples/{user_id}/"
                     )
                 )
             except Exception as e:
@@ -125,9 +131,9 @@ class VoiceSampleService:
             await db.commit()
             await db.refresh(voice_sample)
             return voice_sample
-        except Exception as e:
+        except Exception:
             await db.rollback()
-            raise e
+            raise
 
     @staticmethod
     async def update_voice_sample(db: AsyncSession, voice_id: str, voice_name: str) -> Optional[VoiceSample]:

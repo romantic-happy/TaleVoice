@@ -14,7 +14,7 @@ class AudioGenerateRequest(BaseModel):
 
     storyId: str = Field(..., description="故事章节ID")
     voiceId: str = Field(..., description="克隆音色ID")
-    speechRate: float = Field(..., description="语速，0.5~2")
+    speechRate: float = Field(..., ge=0.5, le=2, description="语速，0.5~2")
 
 
 class AudioUpdateRequest(BaseModel):

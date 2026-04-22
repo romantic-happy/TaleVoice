@@ -38,7 +38,7 @@ async def create_audio(
         voice_id=audio_data.voiceId,
         speech_rate=audio_data.speechRate,
     )
-    return ResponseModel(code=200, message="任务已创建", data={"audioId": audio.audio_id, "title": audio.title, "storyId": audio.story_id, "status": audio.status, "fileUrl": audio.file_url})
+    return ResponseModel(code=202, message="任务已创建", data={"audioId": audio.audio_id, "title": audio.title, "storyId": audio.story_id, "status": audio.status, "fileUrl": audio.file_url})
 
 
 @router.get("", response_model=ResponseModel)
@@ -51,6 +51,8 @@ async def get_audio_list(
     db: AsyncSession = Depends(get_db),
 ):
     audios, total = await audio_service.list_audios(db, storyId, page, pageSize, title)
+    if any(audio.user_id != current_user["user_id"] for audio in audios):
+        raise APIException(code=ErrorCode.FORBIDDEN, message="无权限访问该故事的语音列表")
     data = {
         "total": total,
         "lists": [{"audioId": audio.audio_id, "title": audio.title, "status": audio.status, "fileUrl": audio.file_url} for audio in audios],
