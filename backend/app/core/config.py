@@ -32,6 +32,10 @@ class Settings(BaseSettings):
     # 3. 明确可选配置
     OSS_CDN_DOMAIN: Optional[str] = None
 
+    # OpenAI配置
+    OPENAI_API_KEY: SecretStr
+    OPENAI_BASE_URL: Optional[str]
+
     # 4. Pydantic V2 规范写法，替代原来的 class Config
     model_config = SettingsConfigDict(
         env_file=Path(__file__).parent.parent.parent / ".env",
