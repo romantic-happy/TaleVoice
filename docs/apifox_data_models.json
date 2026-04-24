@@ -1,0 +1,785 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TaleVoice Data Models",
+    "version": "3.0.0",
+    "description": "TaleVoice 项目数据模型，基于 PostgreSQL 数据库表结构 v3.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "开发环境"
+    }
+  ],
+  "paths": {},
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "description": "用户表",
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "用户唯一标识"
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "用户名"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 100,
+            "description": "邮箱地址"
+          },
+          "password_hash": {
+            "type": "string",
+            "maxLength": 255,
+            "description": "密码哈希值（bcrypt加密）"
+          },
+          "avatar_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "头像URL"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          }
+        },
+        "required": ["user_id", "username", "email", "password_hash", "create_time"]
+      },
+      "Story": {
+        "type": "object",
+        "description": "故事表",
+        "properties": {
+          "story_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "故事唯一标识"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "创建者用户ID"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "故事标题"
+          },
+          "content": {
+            "type": "string",
+            "description": "故事正文内容"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的项目ID"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": ["story_id", "user_id", "title", "content", "create_time", "update_time"]
+      },
+      "Project": {
+        "type": "object",
+        "description": "项目表",
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "项目唯一标识"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "创建者用户ID"
+          },
+          "story_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的故事ID"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "项目标题"
+          },
+          "description": {
+            "type": "string",
+            "description": "项目详细描述内容"
+          },
+          "project_type": {
+            "type": "string",
+            "enum": ["audio", "video"],
+            "description": "项目类型"
+          },
+          "style": {
+            "type": "string",
+            "maxLength": 100,
+            "default": "default",
+            "description": "项目风格"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "项目文件URL"
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "缩略图URL"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "项目时长（秒）"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "processing", "completed", "failed"],
+            "default": "processing",
+            "description": "状态"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": ["project_id", "user_id", "title", "project_type", "status", "create_time", "update_time"]
+      },
+      "VoiceSample": {
+        "type": "object",
+        "description": "声音模型表",
+        "properties": {
+          "voice_sample_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "模型唯一标识"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "所有者用户ID"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "模型名称"
+          },
+          "model_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "模型文件URL"
+          },
+          "sample_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "样本音频URL"
+          },
+          "sample_duration": {
+            "type": "integer",
+            "description": "样本音频时长（秒）"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["training", "ready", "failed"],
+            "default": "training",
+            "description": "状态"
+          },
+          "similarity": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 0.8,
+            "description": "声音相似度"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": ["voice_sample_id", "user_id", "name", "status", "similarity", "create_time", "update_time"]
+      },
+      "Audio": {
+        "type": "object",
+        "description": "音频表",
+        "properties": {
+          "audio_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "音频唯一标识"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "所有者用户ID"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "音频名称"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "音频文件URL"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "音频标题"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的项目ID"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": ["audio_id", "user_id", "name", "title", "create_time", "update_time"]
+      },
+      "Video": {
+        "type": "object",
+        "description": "视频表",
+        "properties": {
+          "video_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "视频唯一标识"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的项目ID"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "所有者用户ID"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "视频标题"
+          },
+          "description": {
+            "type": "string",
+            "description": "视频描述"
+          },
+          "source_image_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "源图片URL（生成视频的原始图片）"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "视频文件URL"
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "缩略图URL"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "视频时长（秒）"
+          },
+          "resolution": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "视频分辨率（如 1920x1080）"
+          },
+          "fps": {
+            "type": "integer",
+            "description": "帧率（每秒帧数）"
+          },
+          "file_size": {
+            "type": "integer",
+            "format": "int64",
+            "description": "文件大小（字节）"
+          },
+          "format": {
+            "type": "string",
+            "maxLength": 20,
+            "default": "mp4",
+            "description": "视频格式"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "AI生成提示词"
+          },
+          "bgm_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的背景音乐ID"
+          },
+          "bgm_volume": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 30,
+            "description": "背景音乐音量（0-100）"
+          },
+          "bgm_fade_in": {
+            "type": "string",
+            "maxLength": 16,
+            "default": "1.0",
+            "description": "背景音乐淡入时长（秒）"
+          },
+          "bgm_fade_out": {
+            "type": "string",
+            "maxLength": 16,
+            "default": "1.5",
+            "description": "背景音乐淡出时长（秒）"
+          },
+          "bgm_loop": {
+            "type": "integer",
+            "default": 1,
+            "description": "背景音乐是否循环（0否/1是）"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": ["video_id", "project_id", "user_id", "title", "create_time", "update_time"]
+      },
+      "BGM": {
+        "type": "object",
+        "description": "背景音乐表",
+        "properties": {
+          "bgm_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "背景音乐唯一标识"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "音乐名称"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "上传用户ID（系统预置为NULL）"
+          },
+          "source": {
+            "type": "string",
+            "enum": ["system", "user", "third_party"],
+            "default": "system",
+            "description": "来源类型"
+          },
+          "style": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "音乐风格（如：轻快、舒缓、激昂等）"
+          },
+          "emotion": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "情感标签（如：温馨、欢快、悲伤等）"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "音乐文件URL"
+          },
+          "sample_url": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "试听片段URL"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "音乐时长（秒）"
+          },
+          "bpm": {
+            "type": "integer",
+            "description": "节奏BPM（每分钟节拍数）"
+          },
+          "format": {
+            "type": "string",
+            "maxLength": 32,
+            "default": "mp3",
+            "description": "音频格式（mp3/wav/aac等）"
+          },
+          "sample_rate": {
+            "type": "integer",
+            "description": "采样率（Hz）"
+          },
+          "channels": {
+            "type": "integer",
+            "description": "声道数"
+          },
+          "bit_rate": {
+            "type": "integer",
+            "description": "比特率（kbps）"
+          },
+          "file_size": {
+            "type": "integer",
+            "format": "int64",
+            "description": "文件大小（字节）"
+          },
+          "play_count": {
+            "type": "integer",
+            "default": 0,
+            "description": "播放次数"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": ["bgm_id", "name", "source", "play_count", "create_time", "update_time"]
+      },
+      "Subtitle": {
+        "type": "object",
+        "description": "字幕表",
+        "properties": {
+          "subtitle_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "字幕唯一标识"
+          },
+          "video_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联视频ID"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "创建用户ID"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "字幕标题"
+          },
+          "language": {
+            "type": "string",
+            "maxLength": 16,
+            "default": "zh-CN",
+            "description": "语言代码（zh-CN/en-US等）"
+          },
+          "format": {
+            "type": "string",
+            "enum": ["srt", "ass", "vtt", "json"],
+            "default": "srt",
+            "description": "字幕格式"
+          },
+          "content": {
+            "type": "string",
+            "description": "字幕内容文本"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "字幕文件URL"
+          },
+          "task_id": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "阿里云字幕生成任务ID"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "processing", "completed", "failed"],
+            "default": "pending",
+            "description": "任务状态"
+          },
+          "confidence": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "整体识别置信度"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": ["subtitle_id", "video_id", "user_id", "status", "create_time", "update_time"]
+      },
+      "SubtitleSegment": {
+        "type": "object",
+        "description": "字幕片段表",
+        "properties": {
+          "segment_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "片段唯一标识"
+          },
+          "subtitle_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联字幕ID"
+          },
+          "segment_index": {
+            "type": "integer",
+            "description": "片段序号（从1开始）"
+          },
+          "start_time": {
+            "type": "integer",
+            "format": "int64",
+            "description": "开始时间（毫秒）"
+          },
+          "end_time": {
+            "type": "integer",
+            "format": "int64",
+            "description": "结束时间（毫秒）"
+          },
+          "text": {
+            "type": "string",
+            "description": "字幕文本内容"
+          },
+          "confidence": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1.0,
+            "description": "片段识别置信度"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          }
+        },
+        "required": ["segment_id", "subtitle_id", "segment_index", "start_time", "end_time", "text", "create_time"]
+      },
+      "EditTask": {
+        "type": "object",
+        "description": "剪辑任务表",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "剪辑任务唯一标识"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联项目ID"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "创建用户ID"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "任务标题"
+          },
+          "description": {
+            "type": "string",
+            "description": "任务描述"
+          },
+          "timeline_config": {
+            "type": "object",
+            "description": "时间线配置（JSON格式，包含片段、转场、滤镜、BGM等配置）"
+          },
+          "output_url": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "输出视频URL"
+          },
+          "output_duration": {
+            "type": "integer",
+            "description": "输出视频时长（秒）"
+          },
+          "resolution": {
+            "type": "string",
+            "maxLength": 20,
+            "default": "1920x1080",
+            "description": "输出分辨率"
+          },
+          "fps": {
+            "type": "integer",
+            "default": 30,
+            "description": "输出帧率"
+          },
+          "aliyun_task_id": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "阿里云剪辑任务ID"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "processing", "completed", "failed"],
+            "default": "pending",
+            "description": "任务状态"
+          },
+          "progress": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 0,
+            "description": "任务进度（0-100）"
+          },
+          "error_message": {
+            "type": "string",
+            "description": "错误信息"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": ["task_id", "project_id", "user_id", "title", "status", "progress", "create_time", "update_time"]
+      },
+      "EditClip": {
+        "type": "object",
+        "description": "剪辑片段表",
+        "properties": {
+          "clip_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "片段唯一标识"
+          },
+          "task_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联剪辑任务ID"
+          },
+          "video_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联视频ID"
+          },
+          "video_url": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "视频文件URL"
+          },
+          "clip_order": {
+            "type": "integer",
+            "description": "片段顺序（从1开始）"
+          },
+          "start_time": {
+            "type": "number",
+            "format": "float",
+            "default": 0,
+            "description": "片段开始时间（秒）"
+          },
+          "end_time": {
+            "type": "number",
+            "format": "float",
+            "default": 0,
+            "description": "片段结束时间（秒）"
+          },
+          "duration": {
+            "type": "number",
+            "format": "float",
+            "default": 0,
+            "description": "片段时长（秒）"
+          },
+          "transition_in": {
+            "type": "string",
+            "enum": ["fade", "dissolve", "wipe_left", "wipe_right", "wipe_up", "wipe_down", "slide_left", "slide_right", "zoom_in", "zoom_out", "rotate", "blur", "none"],
+            "default": "fade",
+            "description": "入场转场效果"
+          },
+          "transition_out": {
+            "type": "string",
+            "enum": ["fade", "dissolve", "wipe_left", "wipe_right", "wipe_up", "wipe_down", "slide_left", "slide_right", "zoom_in", "zoom_out", "rotate", "blur", "none"],
+            "default": "fade",
+            "description": "出场转场效果"
+          },
+          "transition_duration": {
+            "type": "number",
+            "format": "float",
+            "default": 0.5,
+            "description": "转场时长（秒）"
+          },
+          "filter_type": {
+            "type": "string",
+            "enum": ["none", "warm", "cool", "vintage", "black_white", "sepia", "bright", "contrast", "saturate", "sharpen"],
+            "default": "none",
+            "description": "滤镜类型"
+          },
+          "volume": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 100,
+            "description": "音量（0-100）"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": ["clip_id", "task_id", "video_url", "clip_order", "create_time", "update_time"]
+      }
+    }
+  }
+}

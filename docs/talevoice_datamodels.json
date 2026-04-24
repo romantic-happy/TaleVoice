@@ -1,0 +1,416 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TaleVoice 数据模型",
+    "version": "2.0.0",
+    "description": "TaleVoice 项目完整数据模型，基于 database_schema_design.md 文档定义"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "开发环境"
+    }
+  ],
+  "paths": {},
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "description": "用户表 - 存储系统用户的基本信息，包括认证信息和个人资料",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "用户唯一标识",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "用户名",
+            "example": "zhangsan"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 100,
+            "description": "邮箱地址",
+            "example": "zhangsan@example.com"
+          },
+          "password_hash": {
+            "type": "string",
+            "maxLength": 255,
+            "description": "密码哈希值（bcrypt加密）",
+            "example": "$2b$12$..."
+          },
+          "avatar_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "头像URL",
+            "example": "https://example.com/avatars/xxx.jpg"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间",
+            "example": "2026-04-15T10:30:00Z"
+          }
+        },
+        "required": ["id", "username", "email", "password_hash", "created_at"]
+      },
+      "Story": {
+        "type": "object",
+        "description": "故事表 - 存储用户创建的故事文本内容，包括标题、正文、分类等信息",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "故事唯一标识",
+            "example": "550e8400-e29b-41d4-a716-446655440001"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "创建者用户ID（外键 → users.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "故事标题",
+            "example": "小红帽的故事"
+          },
+          "content": {
+            "type": "string",
+            "description": "故事正文内容",
+            "example": "从前有一个可爱的小女孩..."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间",
+            "example": "2026-04-15T10:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间（自动更新）",
+            "example": "2026-04-15T10:30:00Z"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的项目ID（外键 → projects.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440002"
+          }
+        },
+        "required": ["id", "user_id", "title", "content", "created_at", "updated_at"]
+      },
+      "Project": {
+        "type": "object",
+        "description": "项目表 - 存储生成的音频或视频项目，包括文件信息、状态、生成参数等",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "项目唯一标识",
+            "example": "550e8400-e29b-41d4-a716-446655440002"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "创建者用户ID（外键 → users.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "story_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的故事ID（外键 → stories.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440001"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "项目标题",
+            "example": "小红帽故事音频版"
+          },
+          "description": {
+            "type": "string",
+            "description": "项目详细描述内容",
+            "example": "基于小红帽故事的儿童有声读物"
+          },
+          "project_type": {
+            "type": "string",
+            "enum": ["audio", "video"],
+            "description": "项目类型: audio/video",
+            "example": "audio"
+          },
+          "style": {
+            "type": "string",
+            "maxLength": 100,
+            "default": "default",
+            "description": "项目风格",
+            "example": "default"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "项目文件URL",
+            "example": "https://cdn.example.com/projects/xxx.mp3"
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "缩略图URL",
+            "example": "https://cdn.example.com/projects/xxx.jpg"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "项目时长（秒）",
+            "example": 300
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "processing", "completed", "failed"],
+            "default": "processing",
+            "description": "状态: pending/processing/completed/failed",
+            "example": "completed"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间",
+            "example": "2026-04-15T10:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间（自动更新）",
+            "example": "2026-04-15T10:30:00Z"
+          }
+        },
+        "required": ["id", "user_id", "title", "project_type", "status", "created_at", "updated_at"]
+      },
+      "VoiceModel": {
+        "type": "object",
+        "description": "声音模型表 - 存储用户的个性化声音模型信息，包括模型文件、训练状态等",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "模型唯一标识",
+            "example": "550e8400-e29b-41d4-a716-446655440004"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "所有者用户ID（外键 → users.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "模型名称",
+            "example": "我的声音模型"
+          },
+          "model_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "模型文件URL",
+            "example": "https://cdn.example.com/models/xxx.pth"
+          },
+          "sample_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "样本音频URL",
+            "example": "https://cdn.example.com/samples/xxx.mp3"
+          },
+          "sample_duration": {
+            "type": "integer",
+            "description": "样本音频时长（秒）",
+            "example": 60
+          },
+          "status": {
+            "type": "string",
+            "enum": ["training", "ready", "failed"],
+            "default": "training",
+            "description": "状态: training/ready/failed",
+            "example": "ready"
+          },
+          "similarity": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 0.8,
+            "description": "声音相似度（0-1）",
+            "example": 0.85
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间",
+            "example": "2026-04-15T10:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间（自动更新）",
+            "example": "2026-04-15T10:30:00Z"
+          }
+        },
+        "required": ["id", "user_id", "name", "status", "similarity", "created_at", "updated_at"]
+      },
+      "AudioFile": {
+        "type": "object",
+        "description": "音频表 - 存储用户的个性化音频信息，包括音频文件、训练状态等",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "音频唯一标识",
+            "example": "550e8400-e29b-41d4-a716-446655440005"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "所有者用户ID（外键 → users.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "音频名称",
+            "example": "背景音乐01"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "音频文件URL",
+            "example": "https://cdn.example.com/audio/xxx.mp3"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "音频标题",
+            "example": "欢快的背景音乐"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间",
+            "example": "2026-04-15T10:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间（自动更新）",
+            "example": "2026-04-15T10:30:00Z"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的项目ID（外键 → projects.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440002"
+          }
+        },
+        "required": ["id", "user_id", "name", "title", "created_at", "updated_at"]
+      },
+      "Video": {
+        "type": "object",
+        "description": "视频表 - 存储由图片通过大模型生成的视频信息，包括源图片、生成的视频文件、视频属性等",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "视频唯一标识",
+            "example": "550e8400-e29b-41d4-a716-446655440006"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的项目ID（外键 → projects.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440002"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "所有者用户ID（外键 → users.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "视频标题",
+            "example": "小红帽动画视频"
+          },
+          "description": {
+            "type": "string",
+            "description": "视频描述",
+            "example": "基于小红帽故事生成的动画视频"
+          },
+          "source_image_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "源图片URL（生成视频的原始图片）",
+            "example": "https://cdn.example.com/images/xxx.jpg"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "视频文件URL",
+            "example": "https://cdn.example.com/videos/xxx.mp4"
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "缩略图URL",
+            "example": "https://cdn.example.com/thumbnails/xxx.jpg"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "视频时长（秒）",
+            "example": 120
+          },
+          "resolution": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "视频分辨率（如 1920x1080）",
+            "example": "1920x1080"
+          },
+          "fps": {
+            "type": "integer",
+            "description": "帧率（每秒帧数）",
+            "example": 30
+          },
+          "file_size": {
+            "type": "integer",
+            "format": "int64",
+            "description": "文件大小（字节）",
+            "example": 52428800
+          },
+          "format": {
+            "type": "string",
+            "maxLength": 20,
+            "default": "mp4",
+            "description": "视频格式",
+            "example": "mp4"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间",
+            "example": "2026-04-15T10:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间（自动更新）",
+            "example": "2026-04-15T10:30:00Z"
+          }
+        },
+        "required": ["id", "project_id", "user_id", "title", "created_at", "updated_at"]
+      }
+    }
+  }
+}
