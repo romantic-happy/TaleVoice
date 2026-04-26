@@ -5,11 +5,18 @@
 """
 
 from pathlib import Path
-from pydantic_settings import BaseSettings
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     """应用配置类"""
+
+    model_config = SettingsConfigDict(
+        env_file=Path(__file__).parent.parent.parent / ".env",
+        case_sensitive=True,
+    )
+
     APP_NAME: str = "TaleVoice"
     DEBUG: bool = True
 
@@ -26,9 +33,12 @@ class Settings(BaseSettings):
     OSS_ENDPOINT: str = ""
     OSS_CDN_DOMAIN: str = ""
 
-    class Config:
-        env_file = Path(__file__).parent.parent.parent / ".env"
-        case_sensitive = True
+    # Qwen TTS配置
+    TTS_MODEL_NAME: str = "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
+    TTS_DEVICE: str = "cpu"
+    TTS_LANGUAGE: str = "Chinese"
+    TTS_ATTENTION_IMPLEMENTATION: str = "eager"
+
 
 
 settings = Settings()
