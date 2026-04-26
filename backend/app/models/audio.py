@@ -40,6 +40,7 @@ class Audio(Base):
 
     对应数据库中的t_audio表，存储生成的语音文件信息
     """
+
     __tablename__ = "t_audio"
 
     audio_id = Column(String(64), primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -59,7 +60,7 @@ class Audio(Base):
 
 class AudioVoiceRel(Base):
     """
-    语音-音色关联模型类
+    语音-音色关联类
 
     对应数据库中的t_audio_voice_rel表，记录语音使用的音色
     """

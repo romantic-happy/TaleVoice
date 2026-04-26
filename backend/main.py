@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 
-from app.api import user_router, voice_sample_router, project_router, common_router, story_router
+from app.api import user_router, voice_sample_router, project_router, common_router, audio_router, story_router
 from app.core.config import settings
 from app.core.logger import app_logger
 from app.core.middleware import RequestLoggingMiddleware
@@ -80,6 +80,7 @@ app.add_middleware(RequestLoggingMiddleware)
 app.include_router(user_router)
 app.include_router(voice_sample_router)
 app.include_router(project_router)
+app.include_router(audio_router)
 app.include_router(common_router)
 app.include_router(story_router)
 
