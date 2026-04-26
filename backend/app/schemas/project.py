@@ -7,7 +7,7 @@
 from datetime import datetime
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict  # ✅ 增加 ConfigDict
 
 
 class ProjectCreate(BaseModel):
@@ -33,8 +33,7 @@ class ProjectResponse(BaseModel):
     style: Optional[str] = None
     createTime: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True) # ✅ Pydantic V2 规范写法
 
 
 class ProjectListItem(BaseModel):

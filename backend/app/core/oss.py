@@ -18,9 +18,17 @@ class OSSClient:
     """OSS客户端类"""
 
     def __init__(self):
-        self.auth = oss2.Auth(settings.OSS_ACCESS_KEY_ID, settings.OSS_ACCESS_KEY_SECRET)
-        self.bucket = oss2.Bucket(self.auth, settings.OSS_ENDPOINT, settings.OSS_BUCKET_NAME)
-
+        """初始化OSS客户端"""
+        self.auth = oss2.Auth(
+            settings.OSS_ACCESS_KEY_ID,
+            settings.OSS_ACCESS_KEY_SECRET.get_secret_value()
+        )
+        self.bucket = oss2.Bucket(
+            self.auth,
+            settings.OSS_ENDPOINT,
+            settings.OSS_BUCKET_NAME
+        )
+    
     def upload_file(self, file_content: bytes, file_ext: str, key_prefix: str = "uploads/") -> str:
         now = datetime.now()
         year = now.strftime("%Y")
