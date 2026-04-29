@@ -8,3 +8,4 @@ from app.models.user import User
 from app.models.voice_sample import VoiceSample
 from app.models.project import Project
 from app.models.audio import Story, Audio, AudioVoiceRel
+from app.models.video import Video, BGM

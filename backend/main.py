@@ -1,6 +1,5 @@
 """
 TaleVoice应用主入口
-
 FastAPI应用配置，包括：
 - 中间件配置（CORS、日志）
 - 路由注册
@@ -12,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 
-from app.api import user_router, voice_sample_router, project_router, common_router, audio_router, story_router
+from app.api import user_router, voice_sample_router, project_router, common_router, audio_router, story_router, video_router, bgm_router
 from app.core.config import settings
 from app.core.logger import app_logger
 from app.core.middleware import RequestLoggingMiddleware
@@ -30,14 +29,14 @@ async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    yield  # ⬅️ 关键：应用在此处挂起并开始处理接收到的请求
+    yield  # 关键：应用在此处挂起并开始处理接收到的请求
 
     # ====== 关闭阶段 (Shutdown) ======
     app_logger.info(f"{settings.APP_NAME} 服务关闭")
     # 关闭数据库连接
     await engine.dispose()
 
-    
+
 app = FastAPI(
     title=settings.APP_NAME,
     description="TaleVoice - AI故事语音生成平台",
@@ -83,6 +82,8 @@ app.include_router(project_router)
 app.include_router(audio_router)
 app.include_router(common_router)
 app.include_router(story_router)
+app.include_router(video_router)
+app.include_router(bgm_router)
 
 
 @app.get("/")

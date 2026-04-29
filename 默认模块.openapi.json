@@ -1,0 +1,4128 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "默认模块",
+    "description": "TaleVoice 项目数据模型，基于 PostgreSQL 数据库表结构",
+    "version": "1.0.0"
+  },
+  "tags": [],
+  "paths": {
+    "/api/user/audio": {
+      "post": {
+        "summary": "克隆音频样本上传",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "audio": {
+                    "format": "binary",
+                    "type": "string",
+                    "description": "要克隆的音频文件",
+                    "example": ""
+                  },
+                  "voiceName": {
+                    "description": "自定义音色名称",
+                    "example": "妈妈的声音",
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string",
+                      "title": "音频样本ID"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "创建成功",
+                  "data": "voice-01"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "修改克隆音频样本名称",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "voiceId": {
+                    "type": "string",
+                    "title": "音频ID"
+                  },
+                  "voiceName": {
+                    "type": "string",
+                    "title": "自定义音色名称"
+                  }
+                },
+                "required": [
+                  "voiceId",
+                  "voiceName"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "修改成功",
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "获取克隆音频样本列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "voiceId": {
+                            "type": "string",
+                            "title": "音频ID"
+                          },
+                          "voiceName": {
+                            "type": "string",
+                            "title": "自定义音色名称"
+                          },
+                          "default": {
+                            "type": "boolean",
+                            "title": "是否为系统自带音色"
+                          }
+                        },
+                        "required": [
+                          "voiceId",
+                          "voiceName",
+                          "default"
+                        ]
+                      },
+                      "title": "克隆音频样本列表"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      }
+    },
+    "/api/user/audio/{voiceId}": {
+      "delete": {
+        "summary": "克隆音频样本删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "voiceId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "删除成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      }
+    },
+    "/api/user/register": {
+      "post": {
+        "summary": "用户注册",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "title": "昵称"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "SHA-256加密发送",
+                    "title": "密码"
+                  },
+                  "email": {
+                    "type": "string",
+                    "title": "邮箱"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password",
+                  "email"
+                ]
+              },
+              "example": {
+                "username": "zhangsan",
+                "password": "123456",
+                "email": "zhangsan@example.com"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "title": "响应码",
+                      "description": "后端自定义响应码"
+                    },
+                    "message": {
+                      "type": "string",
+                      "title": "响应消息",
+                      "description": "后端对code的说明"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "注册成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "summary": "用户登录",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "title": "昵称"
+                  },
+                  "password": {
+                    "type": "string",
+                    "title": "密码",
+                    "description": "SHA-256加密发送"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password"
+                ]
+              },
+              "example": {
+                "username": "zhangsan",
+                "password": "123456"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string",
+                      "title": "登录令牌",
+                      "description": "jwt令牌"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "登录成功",
+                  "data": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/user/logout": {
+      "post": {
+        "summary": "用户登出",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "登出成功"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/user/profile": {
+      "get": {
+        "summary": "获取个人信息",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "string",
+                          "title": "用户ID"
+                        },
+                        "username": {
+                          "type": "string",
+                          "title": "昵称"
+                        },
+                        "email": {
+                          "type": "string",
+                          "title": "邮箱"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "title": "头像",
+                          "description": "头像的URL地址"
+                        },
+                        "createTime": {
+                          "type": "string",
+                          "title": "创建时间"
+                        }
+                      },
+                      "required": [
+                        "userId",
+                        "username",
+                        "email",
+                        "avatar",
+                        "createTime"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "获取成功",
+                  "data": {
+                    "userId": "1001",
+                    "username": "zhangsan",
+                    "email": "zhangsan@example.com",
+                    "avatar": "https://example.com/avatar.jpg",
+                    "createTime": "2026-01-01T00:00:00Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "修改个人信息",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "title": "昵称",
+                    "description": "不可与他人重复，若重复会返回失败",
+                    "nullable": true
+                  },
+                  "email": {
+                    "type": "string",
+                    "title": "邮箱",
+                    "nullable": true
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "title": "头像",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "username",
+                  "email",
+                  "avatar"
+                ]
+              },
+              "example": {
+                "username": "zhangsan",
+                "email": "newemail@example.com",
+                "avatar": "https://example.com/new-avatar.jpg"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "description": "1为成功，0为失败"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "修改成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/user/password": {
+      "put": {
+        "summary": "密码修改",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "oldPassword": {
+                    "type": "string",
+                    "title": "旧密码",
+                    "description": "SHA-256加密发送"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "title": "新密码",
+                    "description": "SHA-256加密发送"
+                  }
+                },
+                "required": [
+                  "oldPassword",
+                  "newPassword"
+                ]
+              },
+              "example": {
+                "oldPassword": "123456",
+                "newPassword": "654321"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "密码修改成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/user/password/reset": {
+      "post": {
+        "summary": "密码重置",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "title": "邮箱"
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              },
+              "example": {
+                "email": "zhangsan@example.com"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "重置邮件已发送，请查收邮箱",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/project": {
+      "post": {
+        "summary": "项目创建",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "title": "项目标题"
+                  },
+                  "description": {
+                    "type": "string",
+                    "title": "项目简介",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "title",
+                  "description"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string",
+                      "title": "项目ID"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "创建成功",
+                  "data": "project-01"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "修改项目",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "项目ID"
+                  },
+                  "title": {
+                    "type": "string",
+                    "title": "项目标题",
+                    "nullable": true
+                  },
+                  "description": {
+                    "type": "string",
+                    "title": "项目描述",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "projectId",
+                  "title",
+                  "description"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "修改成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/project/{projectId}": {
+      "delete": {
+        "summary": "项目删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "删除成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/project/list": {
+      "get": {
+        "summary": "项目列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "第几页",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "每页多少条",
+            "required": true,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "搜索功能，支持部分匹配\n",
+            "required": false,
+            "example": "童话",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer",
+                          "title": "返回的项目总数"
+                        },
+                        "lists": {
+                          "type": "object",
+                          "properties": {
+                            "projectId": {
+                              "type": "string",
+                              "title": "项目ID"
+                            },
+                            "title": {
+                              "type": "string",
+                              "title": "项目标题"
+                            },
+                            "description": {
+                              "type": "string",
+                              "title": "项目简介",
+                              "nullable": true
+                            },
+                            "style": {
+                              "type": "string",
+                              "title": "项目风格",
+                              "nullable": true
+                            }
+                          },
+                          "title": "项目列表",
+                          "required": [
+                            "projectId",
+                            "title",
+                            "description",
+                            "style"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "lists"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "date"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/story/list/{projectId}": {
+      "get": {
+        "summary": "获取故事内容",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "title": "故事标题"
+                        },
+                        "content": {
+                          "type": "string",
+                          "title": "故事内容"
+                        },
+                        "createTime": {
+                          "type": "string",
+                          "title": "创建时间"
+                        },
+                        "updateTime": {
+                          "type": "string",
+                          "title": "更新时间"
+                        }
+                      },
+                      "required": [
+                        "title",
+                        "content",
+                        "createTime",
+                        "updateTime"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/story": {
+      "post": {
+        "summary": "创建故事内容",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "项目ID"
+                  },
+                  "title": {
+                    "type": "string",
+                    "title": "章节标题"
+                  },
+                  "content": {
+                    "type": "string",
+                    "title": "章节内容",
+                    "description": "若用户选择文件导入，则由前端解析为string"
+                  }
+                },
+                "required": [
+                  "title",
+                  "content",
+                  "projectId"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "编辑故事内容",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "项目ID"
+                  },
+                  "title": {
+                    "type": "string",
+                    "title": "章节标题",
+                    "nullable": true
+                  },
+                  "content": {
+                    "type": "string",
+                    "title": "章节内容",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "title",
+                  "content",
+                  "projectId"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "修改成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/story/{projectId}": {
+      "delete": {
+        "summary": "删除故事内容",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "项目ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "删除成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/story/export/{projectId}": {
+      "get": {
+        "summary": "故事导出",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "项目ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "返回一个文件（.txt），\n浏览器会自动下载\n\n示例响应头：\nContent-Type: text/plain\nContent-Disposition: attachment; filename=\"故事_勇敢的小兔子.txt\"",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/story/ai": {
+      "post": {
+        "summary": "AI故事生成",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "项目ID"
+                  },
+                  "theme": {
+                    "type": "string",
+                    "title": "主题"
+                  },
+                  "style": {
+                    "type": "string",
+                    "title": "风格",
+                    "nullable": true
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "title": "关键词",
+                    "nullable": true
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "title": "要求",
+                    "nullable": true
+                  },
+                  "number": {
+                    "type": "string",
+                    "title": "章节数量",
+                    "description": "如：3~6章",
+                    "nullable": true
+                  },
+                  "length": {
+                    "type": "string",
+                    "title": "每章长度",
+                    "description": "如：medium",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "theme",
+                  "style",
+                  "keyword",
+                  "prompt",
+                  "number",
+                  "length",
+                  "projectId"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "生成成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "AI故事内容修改",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "项目ID"
+                  },
+                  "theme": {
+                    "type": "string",
+                    "title": "主题",
+                    "nullable": true
+                  },
+                  "style": {
+                    "type": "string",
+                    "title": "风格",
+                    "nullable": true
+                  },
+                  "keyword": {
+                    "type": "string",
+                    "title": "关键词",
+                    "nullable": true
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "title": "要求"
+                  },
+                  "number": {
+                    "type": "string",
+                    "title": "章节数量",
+                    "description": "如：3~6章",
+                    "nullable": true
+                  },
+                  "length": {
+                    "type": "string",
+                    "title": "长度",
+                    "description": "如：medium",
+                    "nullable": true
+                  },
+                  "rewrite": {
+                    "type": "boolean",
+                    "title": "是否重写",
+                    "description": "若为true则直接重写不参考当前内容"
+                  }
+                },
+                "required": [
+                  "rewrite",
+                  "theme",
+                  "style",
+                  "keyword",
+                  "prompt",
+                  "length",
+                  "projectId",
+                  "number"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "修改成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/audio": {
+      "post": {
+        "summary": "语音生成",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "项目ID"
+                  },
+                  "voiceId": {
+                    "type": "string",
+                    "title": "克隆音频ID列表",
+                    "description": "想要使用的个性化音色，多个时会自动合理分配角色"
+                  },
+                  "speechRate": {
+                    "type": "number",
+                    "title": "语速",
+                    "description": "0.5~2"
+                  }
+                },
+                "required": [
+                  "projectId",
+                  "voiceId",
+                  "speechRate"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "audioId": {
+                          "type": "string",
+                          "title": "音频ID"
+                        },
+                        "title": {
+                          "type": "string",
+                          "title": "语音标题",
+                          "description": "刚生成时是默认标题，如“音频1”"
+                        },
+                        "projectId": {
+                          "type": "string",
+                          "title": "项目ID"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "fileUrl": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "audioId",
+                        "title",
+                        "status",
+                        "fileUrl",
+                        "projectId"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "生成成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "获取语音列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "query",
+            "description": "项目ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "第几页",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "每页多少条",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "根据语音昵称搜索，支持部分匹配",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer",
+                          "title": "返回的语音总数"
+                        },
+                        "lists": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "audioId": {
+                                "type": "string",
+                                "title": "语音ID"
+                              },
+                              "title": {
+                                "type": "string",
+                                "title": "语音标题",
+                                "description": "刚生成时是默认标题"
+                              },
+                              "status": {
+                                "type": "string",
+                                "title": "状态"
+                              },
+                              "fileUrl": {
+                                "type": "string",
+                                "title": "文件URL"
+                              }
+                            },
+                            "required": [
+                              "audioId",
+                              "title",
+                              "status",
+                              "fileUrl"
+                            ]
+                          },
+                          "title": "语音列表"
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "lists"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "修改语音标题",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "audioId": {
+                    "type": "string",
+                    "title": "语音ID"
+                  },
+                  "title": {
+                    "type": "string",
+                    "title": "标题"
+                  }
+                },
+                "required": [
+                  "audioId",
+                  "title"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "修改成功",
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      }
+    },
+    "/api/audio/{audioId}": {
+      "get": {
+        "summary": "获取语音",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "audioId",
+            "in": "path",
+            "description": "语音ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "会返回一个音频文件，可用于在线播放，也可供用户导出",
+            "content": {
+              "audio/basic": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "删除语音",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "audioId",
+            "in": "path",
+            "description": "语音ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "删除成功",
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      }
+    },
+    "/api/audio/export": {
+      "get": {
+        "summary": "语音批量导出",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "audioIds",
+            "in": "query",
+            "description": "要导出的音频ID列表",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "返回一个压缩包（.zip），\n浏览器会自动下载",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      }
+    },
+    "/api/image": {
+      "post": {
+        "summary": "AI生成插图",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "项目ID"
+                  },
+                  "style": {
+                    "type": "string",
+                    "title": "风格"
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "title": "要求"
+                  }
+                },
+                "required": [
+                  "projectId",
+                  "style",
+                  "prompt"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "生成成功",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "获取插图列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "query",
+            "description": "项目ID",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "第几页",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": " 每页多少条",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "根据插图标题搜索，支持部分匹配",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer",
+                          "title": "返回的插图总数"
+                        },
+                        "lists": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "imageId": {
+                                "type": "string",
+                                "title": "插图ID"
+                              },
+                              "title": {
+                                "type": "string",
+                                "title": "插图标题",
+                                "description": "刚生成时为默认标题，如“插图-1”"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "lists"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "修改插图标题",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imageId": {
+                    "type": "string",
+                    "title": "插图ID"
+                  },
+                  "title": {
+                    "type": "string",
+                    "title": "插图标题"
+                  }
+                },
+                "required": [
+                  "imageId",
+                  "title"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "修改成功",
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/image/{imageId}": {
+      "get": {
+        "summary": "获取插图",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "插图ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "会返回一个图片文件，可用于在线预览，也可供用户导出",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "删除插图",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "删除成功",
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      }
+    },
+    "/api/image/export": {
+      "get": {
+        "summary": "插图批量导出",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "imageIds",
+            "in": "query",
+            "description": "要导出的插图ID列表",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "返回一个压缩包（.zip），\n浏览器会自动下载",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      }
+    },
+    "/api/video": {
+      "post": {
+        "summary": "生成视频",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "项目ID"
+                  },
+                  "imageIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "参考的插图ID列表"
+                  },
+                  "style": {
+                    "type": "string",
+                    "title": "风格",
+                    "nullable": true
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "title": "要求"
+                  }
+                },
+                "required": [
+                  "projectId",
+                  "imageIds",
+                  "style",
+                  "prompt"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "生成成功",
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "获取视频列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "query",
+            "description": "项目ID",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "第几页",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "每页多少条",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "根据语音昵称搜索，支持部分匹配",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer",
+                          "title": "返回的视频总数"
+                        },
+                        "lists": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "videoId": {
+                                "type": "string",
+                                "title": "视频ID"
+                              },
+                              "title": {
+                                "type": "string",
+                                "title": "视频标题",
+                                "description": "刚生成时为默认值，如“视频-1”"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "lists"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "string",
+                  "data": {
+                    "total": 0,
+                    "lists": [
+                      {
+                        "videoId": "string",
+                        "title": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "修改视频标题",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "videoId": {
+                    "type": "string",
+                    "title": "视频ID"
+                  },
+                  "title": {
+                    "type": "string",
+                    "title": "视频标题"
+                  }
+                },
+                "required": [
+                  "videoId",
+                  "title"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "修改成功",
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      }
+    },
+    "/api/video/{imageId}": {
+      "get": {
+        "summary": "获取视频",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "会返回一个视频文件，可用于在线播放，也可供用户导出",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      }
+    },
+    "/api/video/{videoId}": {
+      "delete": {
+        "summary": "删除视频",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "删除成功",
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      }
+    },
+    "/api/video/export": {
+      "get": {
+        "summary": "视频批量导出",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "videoIds",
+            "in": "query",
+            "description": "要导出的视频ID列表",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "返回一个压缩包（.zip），\n浏览器会自动下载",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT令牌校验": []
+          }
+        ]
+      }
+    },
+    "/common/upload": {
+      "post": {
+        "summary": "图片上传",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer <token>",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "必须为示例值",
+            "required": false,
+            "example": "multipart/form-data",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string",
+                      "description": "返回阿里云OSS链接"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "msg",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 1,
+                  "msg": "ea minim cillum fugiat magna",
+                  "data": "https://www.baidu.com"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "description": "用户表",
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "用户唯一标识"
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "用户名"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 100,
+            "description": "邮箱地址"
+          },
+          "password_hash": {
+            "type": "string",
+            "maxLength": 255,
+            "description": "密码哈希值（bcrypt加密）"
+          },
+          "avatar_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "头像URL"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          }
+        },
+        "required": [
+          "user_id",
+          "username",
+          "email",
+          "password_hash",
+          "create_time"
+        ]
+      },
+      "Story": {
+        "type": "object",
+        "description": "故事表",
+        "properties": {
+          "story_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "故事唯一标识"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "创建者用户ID"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "故事标题"
+          },
+          "content": {
+            "type": "string",
+            "description": "故事正文内容"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的项目ID"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": [
+          "story_id",
+          "user_id",
+          "title",
+          "content",
+          "create_time",
+          "update_time"
+        ]
+      },
+      "Project": {
+        "type": "object",
+        "description": "项目表",
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "项目唯一标识"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "创建者用户ID"
+          },
+          "story_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的故事ID"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "项目标题"
+          },
+          "description": {
+            "type": "string",
+            "description": "项目详细描述内容"
+          },
+          "project_type": {
+            "type": "string",
+            "enum": [
+              "audio",
+              "video"
+            ],
+            "description": "项目类型"
+          },
+          "style": {
+            "type": "string",
+            "maxLength": 100,
+            "default": "default",
+            "description": "项目风格"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "项目文件URL"
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "缩略图URL"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "项目时长（秒）"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processing",
+              "completed",
+              "failed"
+            ],
+            "default": "processing",
+            "description": "状态"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": [
+          "project_id",
+          "user_id",
+          "title",
+          "project_type",
+          "status",
+          "create_time",
+          "update_time"
+        ]
+      },
+      "VoiceModel": {
+        "type": "object",
+        "description": "声音模型表 - 存储用户的个性化声音模型信息，包括模型文件、训练状态等",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "模型唯一标识",
+            "example": "550e8400-e29b-41d4-a716-446655440004"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "所有者用户ID（外键 → users.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "模型名称",
+            "example": "我的声音模型"
+          },
+          "model_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "模型文件URL",
+            "example": "https://cdn.example.com/models/xxx.pth"
+          },
+          "sample_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "样本音频URL",
+            "example": "https://cdn.example.com/samples/xxx.mp3"
+          },
+          "sample_duration": {
+            "type": "integer",
+            "description": "样本音频时长（秒）",
+            "example": 60
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "training",
+              "ready",
+              "failed"
+            ],
+            "default": "training",
+            "description": "状态: training/ready/failed",
+            "example": "ready"
+          },
+          "similarity": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 0.8,
+            "description": "声音相似度（0-1）",
+            "example": 0.85
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间",
+            "example": "2026-04-15T10:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间（自动更新）",
+            "example": "2026-04-15T10:30:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "user_id",
+          "name",
+          "status",
+          "similarity",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "AudioFile": {
+        "type": "object",
+        "description": "音频表 - 存储用户的个性化音频信息，包括音频文件、训练状态等",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "音频唯一标识",
+            "example": "550e8400-e29b-41d4-a716-446655440005"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "所有者用户ID（外键 → users.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "音频名称",
+            "example": "背景音乐01"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "音频文件URL",
+            "example": "https://cdn.example.com/audio/xxx.mp3"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "音频标题",
+            "example": "欢快的背景音乐"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间",
+            "example": "2026-04-15T10:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间（自动更新）",
+            "example": "2026-04-15T10:30:00Z"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的项目ID（外键 → projects.id）",
+            "example": "550e8400-e29b-41d4-a716-446655440002"
+          }
+        },
+        "required": [
+          "id",
+          "user_id",
+          "name",
+          "title",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "Video": {
+        "type": "object",
+        "description": "视频表",
+        "properties": {
+          "video_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "视频唯一标识"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的项目ID"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "所有者用户ID"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "视频标题"
+          },
+          "description": {
+            "type": "string",
+            "description": "视频描述"
+          },
+          "source_image_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "源图片URL（生成视频的原始图片）"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "视频文件URL"
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "缩略图URL"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "视频时长（秒）"
+          },
+          "resolution": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "视频分辨率（如 1920x1080）"
+          },
+          "fps": {
+            "type": "integer",
+            "description": "帧率（每秒帧数）"
+          },
+          "file_size": {
+            "type": "integer",
+            "format": "int64",
+            "description": "文件大小（字节）"
+          },
+          "format": {
+            "type": "string",
+            "maxLength": 20,
+            "default": "mp4",
+            "description": "视频格式"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "AI生成提示词"
+          },
+          "bgm_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的背景音乐ID"
+          },
+          "bgm_volume": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 30,
+            "description": "背景音乐音量（0-100）"
+          },
+          "bgm_fade_in": {
+            "type": "string",
+            "maxLength": 16,
+            "default": "1.0",
+            "description": "背景音乐淡入时长（秒）"
+          },
+          "bgm_fade_out": {
+            "type": "string",
+            "maxLength": 16,
+            "default": "1.5",
+            "description": "背景音乐淡出时长（秒）"
+          },
+          "bgm_loop": {
+            "type": "integer",
+            "default": 1,
+            "description": "背景音乐是否循环（0否/1是）"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": [
+          "video_id",
+          "project_id",
+          "user_id",
+          "title",
+          "create_time",
+          "update_time"
+        ]
+      },
+      "VoiceSample": {
+        "type": "object",
+        "description": "声音模型表",
+        "properties": {
+          "voice_sample_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "模型唯一标识"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "所有者用户ID"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "模型名称"
+          },
+          "model_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "模型文件URL"
+          },
+          "sample_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "样本音频URL"
+          },
+          "sample_duration": {
+            "type": "integer",
+            "description": "样本音频时长（秒）"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "training",
+              "ready",
+              "failed"
+            ],
+            "default": "training",
+            "description": "状态"
+          },
+          "similarity": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 0.8,
+            "description": "声音相似度"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": [
+          "voice_sample_id",
+          "user_id",
+          "name",
+          "status",
+          "similarity",
+          "create_time",
+          "update_time"
+        ]
+      },
+      "Audio": {
+        "type": "object",
+        "description": "音频表",
+        "properties": {
+          "audio_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "音频唯一标识"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "所有者用户ID"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "音频名称"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "音频文件URL"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "音频标题"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联的项目ID"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": [
+          "audio_id",
+          "user_id",
+          "name",
+          "title",
+          "create_time",
+          "update_time"
+        ]
+      },
+      "BGM": {
+        "type": "object",
+        "description": "背景音乐表",
+        "properties": {
+          "bgm_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "背景音乐唯一标识"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "音乐名称"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "上传用户ID（系统预置为NULL）"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "system",
+              "user",
+              "third_party"
+            ],
+            "default": "system",
+            "description": "来源类型"
+          },
+          "style": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "音乐风格（如：轻快、舒缓、激昂等）"
+          },
+          "emotion": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "情感标签（如：温馨、欢快、悲伤等）"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "音乐文件URL"
+          },
+          "sample_url": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "试听片段URL"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "音乐时长（秒）"
+          },
+          "bpm": {
+            "type": "integer",
+            "description": "节奏BPM（每分钟节拍数）"
+          },
+          "format": {
+            "type": "string",
+            "maxLength": 32,
+            "default": "mp3",
+            "description": "音频格式（mp3/wav/aac等）"
+          },
+          "sample_rate": {
+            "type": "integer",
+            "description": "采样率（Hz）"
+          },
+          "channels": {
+            "type": "integer",
+            "description": "声道数"
+          },
+          "bit_rate": {
+            "type": "integer",
+            "description": "比特率（kbps）"
+          },
+          "file_size": {
+            "type": "integer",
+            "format": "int64",
+            "description": "文件大小（字节）"
+          },
+          "play_count": {
+            "type": "integer",
+            "default": 0,
+            "description": "播放次数"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": [
+          "bgm_id",
+          "name",
+          "source",
+          "play_count",
+          "create_time",
+          "update_time"
+        ]
+      },
+      "Subtitle": {
+        "type": "object",
+        "description": "字幕表",
+        "properties": {
+          "subtitle_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "字幕唯一标识"
+          },
+          "video_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联视频ID"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "创建用户ID"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "字幕标题"
+          },
+          "language": {
+            "type": "string",
+            "maxLength": 16,
+            "default": "zh-CN",
+            "description": "语言代码（zh-CN/en-US等）"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "srt",
+              "ass",
+              "vtt",
+              "json"
+            ],
+            "default": "srt",
+            "description": "字幕格式"
+          },
+          "content": {
+            "type": "string",
+            "description": "字幕内容文本"
+          },
+          "file_url": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "字幕文件URL"
+          },
+          "task_id": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "阿里云字幕生成任务ID"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processing",
+              "completed",
+              "failed"
+            ],
+            "default": "pending",
+            "description": "任务状态"
+          },
+          "confidence": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "整体识别置信度"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": [
+          "subtitle_id",
+          "video_id",
+          "user_id",
+          "status",
+          "create_time",
+          "update_time"
+        ]
+      },
+      "SubtitleSegment": {
+        "type": "object",
+        "description": "字幕片段表",
+        "properties": {
+          "segment_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "片段唯一标识"
+          },
+          "subtitle_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联字幕ID"
+          },
+          "segment_index": {
+            "type": "integer",
+            "description": "片段序号（从1开始）"
+          },
+          "start_time": {
+            "type": "integer",
+            "format": "int64",
+            "description": "开始时间（毫秒）"
+          },
+          "end_time": {
+            "type": "integer",
+            "format": "int64",
+            "description": "结束时间（毫秒）"
+          },
+          "text": {
+            "type": "string",
+            "description": "字幕文本内容"
+          },
+          "confidence": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1,
+            "description": "片段识别置信度"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          }
+        },
+        "required": [
+          "segment_id",
+          "subtitle_id",
+          "segment_index",
+          "start_time",
+          "end_time",
+          "text",
+          "create_time"
+        ]
+      },
+      "EditTask": {
+        "type": "object",
+        "description": "剪辑任务表",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "剪辑任务唯一标识"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联项目ID"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "创建用户ID"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "任务标题"
+          },
+          "description": {
+            "type": "string",
+            "description": "任务描述"
+          },
+          "timeline_config": {
+            "type": "object",
+            "description": "时间线配置（JSON格式，包含片段、转场、滤镜、BGM等配置）",
+            "properties": {}
+          },
+          "output_url": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "输出视频URL"
+          },
+          "output_duration": {
+            "type": "integer",
+            "description": "输出视频时长（秒）"
+          },
+          "resolution": {
+            "type": "string",
+            "maxLength": 20,
+            "default": "1920x1080",
+            "description": "输出分辨率"
+          },
+          "fps": {
+            "type": "integer",
+            "default": 30,
+            "description": "输出帧率"
+          },
+          "aliyun_task_id": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "阿里云剪辑任务ID"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processing",
+              "completed",
+              "failed"
+            ],
+            "default": "pending",
+            "description": "任务状态"
+          },
+          "progress": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 0,
+            "description": "任务进度（0-100）"
+          },
+          "error_message": {
+            "type": "string",
+            "description": "错误信息"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": [
+          "task_id",
+          "project_id",
+          "user_id",
+          "title",
+          "status",
+          "progress",
+          "create_time",
+          "update_time"
+        ]
+      },
+      "EditClip": {
+        "type": "object",
+        "description": "剪辑片段表",
+        "properties": {
+          "clip_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "片段唯一标识"
+          },
+          "task_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联剪辑任务ID"
+          },
+          "video_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "关联视频ID"
+          },
+          "video_url": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "视频文件URL"
+          },
+          "clip_order": {
+            "type": "integer",
+            "description": "片段顺序（从1开始）"
+          },
+          "start_time": {
+            "type": "number",
+            "format": "float",
+            "default": 0,
+            "description": "片段开始时间（秒）"
+          },
+          "end_time": {
+            "type": "number",
+            "format": "float",
+            "default": 0,
+            "description": "片段结束时间（秒）"
+          },
+          "duration": {
+            "type": "number",
+            "format": "float",
+            "default": 0,
+            "description": "片段时长（秒）"
+          },
+          "transition_in": {
+            "type": "string",
+            "enum": [
+              "fade",
+              "dissolve",
+              "wipe_left",
+              "wipe_right",
+              "wipe_up",
+              "wipe_down",
+              "slide_left",
+              "slide_right",
+              "zoom_in",
+              "zoom_out",
+              "rotate",
+              "blur",
+              "none"
+            ],
+            "default": "fade",
+            "description": "入场转场效果"
+          },
+          "transition_out": {
+            "type": "string",
+            "enum": [
+              "fade",
+              "dissolve",
+              "wipe_left",
+              "wipe_right",
+              "wipe_up",
+              "wipe_down",
+              "slide_left",
+              "slide_right",
+              "zoom_in",
+              "zoom_out",
+              "rotate",
+              "blur",
+              "none"
+            ],
+            "default": "fade",
+            "description": "出场转场效果"
+          },
+          "transition_duration": {
+            "type": "number",
+            "format": "float",
+            "default": 0.5,
+            "description": "转场时长（秒）"
+          },
+          "filter_type": {
+            "type": "string",
+            "enum": [
+              "none",
+              "warm",
+              "cool",
+              "vintage",
+              "black_white",
+              "sepia",
+              "bright",
+              "contrast",
+              "saturate",
+              "sharpen"
+            ],
+            "default": "none",
+            "description": "滤镜类型"
+          },
+          "volume": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 100,
+            "description": "音量（0-100）"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        },
+        "required": [
+          "clip_id",
+          "task_id",
+          "video_url",
+          "clip_order",
+          "create_time",
+          "update_time"
+        ]
+      }
+    },
+    "responses": {},
+    "securitySchemes": {
+      "JWT令牌校验": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "servers": [],
+  "security": []
+}
